@@ -8,18 +8,18 @@ variable "vpc_id" {
   description = "VPC ID to use"
 }
 
-variable "az" {
-  type        = string
+variable "availability_zones" {
+  type        = list(string)
   description = "Single Availability Zone to use (e.g. ap-south-1a)"
 }
 
-variable "public_subnet_cidr" {
-  type        = string
+variable "public_subnet_cidrs" {
+  type        = list(string)
   description = "CIDR block for the public subnet (internet-facing)"
 }
 
-variable "private_subnet_cidr" {
-  type        = string
+variable "private_subnet_cidrs" {
+  type        = list(string)
   description = "CIDR block for the private subnet (ECS, RDS)"
 }
 

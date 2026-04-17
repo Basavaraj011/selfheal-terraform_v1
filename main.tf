@@ -1,14 +1,12 @@
 module "networking" {
   source = "./modules/networking"
 
-  vpc_id          = var.vpc_id
-  create_subnets  = var.create_subnets
-  az              = var.az
-
-  public_subnet_cidr  = var.public_subnet_cidr
-  private_subnet_cidr = var.private_subnet_cidr
-
-  resource_suffix = local.resource_suffix
+  vpc_id               = var.vpc_id
+  create_subnets       = var.create_subnets
+  availability_zones   = var.availability_zones
+  public_subnet_cidrs  = var.public_subnet_cidrs
+  private_subnet_cidrs = var.private_subnet_cidrs
+  resource_suffix      = local.resource_suffix
 }
 
 module "security" {
@@ -61,8 +59,8 @@ module "iam" {
   source = "./modules/iam"
 
   resource_suffix      = local.resource_suffix
-  execution_role_name  = "ecsTaskExecutionRole-selfheal"   # or whatever name you want
-  secret_arn           = module.app_secrets.secret_arn     # output from your secrets module
+  execution_role_name  = "ecs-execution-${local.resource_suffix}"
+  secret_arn           = module.app_secrets.secret_arn
 }
 
 module "apigw" {
