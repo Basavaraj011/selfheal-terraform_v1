@@ -39,3 +39,13 @@ variable "image_url" {
   type        = string
   description = "Flask container image URL"
 }
+
+variable "db_username" {
+  type      = string
+  sensitive = true
+}
+
+variable "db_password" {
+  type      = string
+  sensitive = true
+}

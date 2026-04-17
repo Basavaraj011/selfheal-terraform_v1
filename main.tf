@@ -120,3 +120,13 @@ module "permissions" {
   execution_role_name = module.iam.execution_role_name
   secret_arn          = module.app_secrets.secret_arn
 }
+
+module "rds" {
+  source = "./modules/rds"
+
+  db_username = var.db_username
+  db_password = var.db_password
+  
+  rds_security_group_id = module.security.rds_security_group_id
+  private_subnet_ids    = module.networking.private_subnet_ids
+}

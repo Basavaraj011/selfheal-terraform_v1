@@ -19,3 +19,7 @@ private_subnet_cidrs = ["172.31.49.0/24", "172.31.50.0/24"]
 # ]
 
 image_url = "960451805606.dkr.ecr.ap-south-1.amazonaws.com/selfheal:latest"
+
+
+db_username = "admin"
+db_password = "Admin-123"
