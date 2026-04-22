@@ -12,3 +12,8 @@ variable "resource_suffix" {
   type        = string
   description = "Suffix appended to security group names (e.g., selfheal)"
 }
+
+variable "vpc_cidr" {
+  type       = string
+  description = "Allow VPN ENI to VPC traffic"
+}

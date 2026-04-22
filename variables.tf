@@ -45,3 +45,30 @@ variable "db_password" {
   type      = string
   sensitive = true
 }
+
+variable "server_cert_path" {
+  description = "Path to Client VPN server certificate (.crt)"
+  type        = string
+}
+
+variable "server_key_path" {
+  description = "Path to Client VPN server private key (.key)"
+  type        = string
+  sensitive   = true
+}
+
+variable "ca_cert_path" {
+  description = "Path to client root CA certificate (.crt)"
+  type        = string
+}
+
+variable "ca_key_path" {
+  description = "Path to client root CA private key (.key)"
+  type        = string
+  sensitive   = true
+}
+
+variable "vpc_cidr" {
+  description = "CIDR block of the VPC"
+  type        = string
+}

@@ -9,3 +9,12 @@ override.tf.json
 *_override.tf
 *_override.tf.json
 terraform.exe
+# Certificates & keys
+certs/*.key
+certs/*.crt
+certs/*.pem
+
+# User VPN files
+*.ovpn
+*.key
+*.crt

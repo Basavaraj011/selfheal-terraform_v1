@@ -1,5 +1,6 @@
 region          = "ap-south-1"
 vpc_id = "vpc-035f6f9ebe230c983"
+vpc_cidr = "172.31.0.0/16" # For client VPN as destination
 
 create_subnets = false
 
@@ -29,3 +30,10 @@ image_url = "960451805606.dkr.ecr.ap-south-1.amazonaws.com/selfheal:latest"
 
 db_username = "admin"
 db_password = "Admin-123"
+
+
+server_cert_path = "./certs/server.crt"
+server_key_path  = "./certs/server.key"
+ca_cert_path     = "./certs/ca.crt"
+ca_key_path      = "./certs/ca.key"
+

@@ -20,6 +20,15 @@ resource "aws_security_group" "rds" {
     cidr_blocks = ["10.100.0.0/22"]
     }
 
+  
+  ingress {
+    description = "Allow VPN ENI to VPC traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = [var.vpc_cidr]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0

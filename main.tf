@@ -2,6 +2,7 @@ module "security" {
   source = "./modules/security"
 
   vpc_id           = var.vpc_id
+  vpc_cidr         = var.vpc_cidr
   alb_ingress_cidr = ["10.0.0.0/16"]
   resource_suffix  = local.resource_suffix
 }
@@ -118,4 +119,17 @@ module "rds" {
   
   rds_security_group_id = module.security.rds_security_group_id
   private_subnet_ids = local.private_subnet_ids
+}
+
+module "client_vpn" {
+  source = "./modules/client_vpn"
+
+  vpc_id            = var.vpc_id
+  vpc_cidr          = var.vpc_cidr
+  private_subnet_id = local.private_subnet_ids[0]
+
+  server_cert_path = "${path.module}/certs/server.crt"
+  server_key_path  = "${path.module}/certs/server.key"
+  ca_cert_path     = "${path.module}/certs/ca.crt"
+  ca_key_path      = "${path.module}/certs/ca.key"
 }
