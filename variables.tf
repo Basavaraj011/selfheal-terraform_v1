@@ -13,16 +13,6 @@ variable "availability_zones" {
   description = "Single Availability Zone to use (e.g. ap-south-1a)"
 }
 
-variable "public_subnet_cidrs" {
-  type        = list(string)
-  description = "CIDR block for the public subnet (internet-facing)"
-}
-
-variable "private_subnet_cidrs" {
-  type        = list(string)
-  description = "CIDR block for the private subnet (ECS, RDS)"
-}
-
 variable "create_subnets" {
   type        = bool
   description = "Whether Terraform should create subnets"
@@ -30,6 +20,12 @@ variable "create_subnets" {
 }
 
 variable "existing_private_subnet_ids" {
+  type        = list(string)
+  description = "Existing private subnet IDs (used only when create_subnets = false)"
+  default     = []
+}
+
+variable "existing_public_subnet_ids" {
   type        = list(string)
   description = "Existing private subnet IDs (used only when create_subnets = false)"
   default     = []

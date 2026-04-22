@@ -1,14 +1,3 @@
-module "networking" {
-  source = "./modules/networking"
-
-  vpc_id               = var.vpc_id
-  create_subnets       = var.create_subnets
-  availability_zones   = var.availability_zones
-  public_subnet_cidrs  = var.public_subnet_cidrs
-  private_subnet_cidrs = var.private_subnet_cidrs
-  resource_suffix      = local.resource_suffix
-}
-
 module "security" {
   source = "./modules/security"
 
@@ -128,5 +117,5 @@ module "rds" {
   db_password = var.db_password
   
   rds_security_group_id = module.security.rds_security_group_id
-  private_subnet_ids    = module.networking.private_subnet_ids
+  private_subnet_ids = local.private_subnet_ids
 }

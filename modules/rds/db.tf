@@ -30,7 +30,7 @@ resource "aws_db_instance" "this" {
   ]
 
 
-  publicly_accessible = true
+  publicly_accessible = false
   multi_az            = false
 
   skip_final_snapshot = true
