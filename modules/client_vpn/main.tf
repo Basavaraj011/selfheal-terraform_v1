@@ -57,13 +57,6 @@ resource "aws_ec2_client_vpn_network_association" "subnet" {
   subnet_id              = var.private_subnet_id
 }
 
-# Route VPN traffic to VPC
-resource "aws_ec2_client_vpn_route" "vpc" {
-  client_vpn_endpoint_id = aws_ec2_client_vpn_endpoint.this.id
-  destination_cidr_block = var.vpc_cidr
-  target_vpc_subnet_id   = var.private_subnet_id
-}
-
 # Authorization rule
 resource "aws_ec2_client_vpn_authorization_rule" "allow_vpc" {
   client_vpn_endpoint_id = aws_ec2_client_vpn_endpoint.this.id

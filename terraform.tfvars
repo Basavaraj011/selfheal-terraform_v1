@@ -37,3 +37,5 @@ server_key_path  = "./certs/server.key"
 ca_cert_path     = "./certs/ca.crt"
 ca_key_path      = "./certs/ca.key"
 
+
+existing_private_route_table_ids = ["rtb-05fd5e074330a69bf"]

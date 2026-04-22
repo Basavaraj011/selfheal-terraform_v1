@@ -72,3 +72,8 @@ variable "vpc_cidr" {
   description = "CIDR block of the VPC"
   type        = string
 }
+
+variable "existing_private_route_table_ids" {
+  type = list(string)
+}
+
