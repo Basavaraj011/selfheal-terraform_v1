@@ -1,4 +1,3 @@
-
 variable "resource_suffix" {
   type        = string
   description = "Suffix for IAM role names"

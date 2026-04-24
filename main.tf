@@ -48,9 +48,9 @@ module "ecr" {
 module "iam" {
   source = "./modules/iam"
 
-  resource_suffix      = local.resource_suffix
-  execution_role_name  = "ecs-execution-${local.resource_suffix}"
-  secret_arn           = module.app_secrets.secret_arn
+  resource_suffix     = local.resource_suffix
+  execution_role_name = "ecs-execution-${local.resource_suffix}"
+  secret_arn          = module.app_secrets.secret_arn
 }
 
 module "apigw" {
@@ -132,4 +132,23 @@ module "client_vpn" {
   server_key_path  = "${path.module}/certs/server.key"
   ca_cert_path     = "${path.module}/certs/ca.crt"
   ca_key_path      = "${path.module}/certs/ca.key"
+}
+
+module "lambda_s3_trigger" {
+  source = "./modules/lambda"
+
+  lambda_role_arn = module.iam.lambda_ecs_trigger_role_arn
+  lambda_filename = "modules/lambda/lambda.zip"
+  ecs_cluster_name      = module.ecs.cluster_name
+  task_definition_family_name   = module.ecs.task_definition_family_name
+  container_name        = module.ecs.container_name
+  private_subnet_ids    = local.private_subnet_ids
+  ecs_security_group_id = module.security.ecs_security_group_id
+}
+
+module "s3_error_logs" {
+  source = "./modules/s3"
+
+  bucket_name = "error-log-bucket-arun1"
+  lambda_arn  = module.lambda_s3_trigger.lambda_arn
 }

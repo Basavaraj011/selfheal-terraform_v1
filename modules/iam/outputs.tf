@@ -16,3 +16,7 @@ output "task_role_name" {
 output "execution_role_name" {
   value = aws_iam_role.execution.name
 }
+
+output "lambda_ecs_trigger_role_arn" {
+  value = aws_iam_role.lambda_ecs_trigger.arn
+}

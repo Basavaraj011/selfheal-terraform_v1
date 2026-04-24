@@ -10,6 +10,14 @@ resource "aws_security_group" "ecs" {
     protocol        = "tcp"
     security_groups = [aws_security_group.alb.id]
   }
+  
+  ingress {
+    description = "Allow ECS tasks to reach Secrets Manager endpoint"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    self        = true
+  }
 
   egress {
     description = "Allow all outbound traffic"
