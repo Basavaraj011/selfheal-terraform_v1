@@ -32,7 +32,7 @@ module "ecs" {
   execution_role_arn = module.iam.execution_role_arn
   task_role_arn      = module.iam.task_role_arn
 
-  subnet_ids            = local.private_subnet_ids
+  ecs_subnet_ids         = local.ecs_private_subnet_id
   ecs_security_group_id = module.security.ecs_security_group_id
   target_group_arn      = module.alb.target_group_arn
   alb_listener_arn      = module.alb.listener_arn
@@ -80,8 +80,8 @@ module "app_secrets" {
       DATABASE_URL                 = "Driver={ODBC Driver 18 for SQL Server};Server=selfheal-db.crwewk24on51.ap-south-1.rds.amazonaws.com;Database=AI_PredictiveRecoveryDB;Uid=admin;Pwd=Admin-123;Encrypt=no;TrustServerCertificate=yes;"
       JIRA_URL                     = "https://basums.atlassian.net"
       JIRA_USERNAME                = "basums011@gmail.com"
-      JIRA_API_TOKEN               = "****"
-      TEAMS_WORKFLOW_URL           = "https://..."
+      JIRA_API_TOKEN               = "ATATT3xFfGF0_um4-nONeANhKFOkGpjDkwA7_6OY2adR7dLSg43hYmHf3Pw5XWonKAxs_QZq5xJ6JPphLRlXW1Pq0qPccqvIUPEizwsyu4DxD2zMfGsxJeiLOwGpj4FlAz5nCfh9pO8HApVizjCFcXbL9VoOHLZya3ZW2tkTCinlcwOJxIICY08=0B0F4D9F"
+      TEAMS_WORKFLOW_URL           = "https://default6e8992ec76d54ea58eaeb0c5e55874.9a.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/91ceb8dbdda245848a65a30eddc648dd/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ceUWS3lwr-AOJz6-sdyhAjXKNAG1Pd3jWtVBWw6N9xw"
       BB_PROVIDER                  = "cloud"
       BB_BASE_URL                  = "https://api.bitbucket.org/2.0"
       BB_USERNAME                  = "basums011"
@@ -90,7 +90,7 @@ module "app_secrets" {
       BB_WORKSPACE                 = "error_handlling_system"
       BB_PROJECT                   = "error_handling_system"
       BB_REPO_SLUG                 = "python-worker"
-      BB_API_TOKEN                 = "****"
+      BB_API_TOKEN                 = "ATATT3xFfGF0g0u9z4wFUnYh0AlyFUOj5Injvh1hMfde4rtUbJSEEOfDOzpkwrhgSfb2um_5hgY2wUW_iHJAARXBlkKpg1ClpRhhzoxODo3iixrjsqqlvvU7Rfm90GJ9Fq3OCdUPt-hxrew9cOZPfkPsZtGBGeMC8q5X1P5ZOTM90Lqvu1WBQAc=03E6FF10"
       BB_REVIEWERS                 = "{504c3b62-8120-4f0c-a7bc-87800b9d6f70}"
       VECTOR_STORE_TYPE            = "pinecone"
       VECTOR_STORE_API_KEY         = "your_api_key"

@@ -41,7 +41,7 @@ variable "task_role_arn" {
   type        = string
   description = "ECS task role ARN"
 }
-variable "subnet_ids" {
+variable "ecs_subnet_ids" {
   type = list(string)
 }
 

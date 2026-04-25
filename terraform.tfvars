@@ -25,6 +25,8 @@ existing_public_subnet_ids = [
   "subnet-0319c9cdb98c09a59"
 ]
 
+ecs_existing_private_subnet_ids = ["subnet-05f0906a24418b482"]
+
 image_url = "960451805606.dkr.ecr.ap-south-1.amazonaws.com/selfheal:latest"
 
 

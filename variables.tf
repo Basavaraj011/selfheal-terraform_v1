@@ -31,6 +31,12 @@ variable "existing_public_subnet_ids" {
   default     = []
 }
 
+variable "ecs_existing_private_subnet_ids" {
+  type        = list(string)
+  description = "Existing private subnet IDs (used only when create_subnets = false)"
+  default     = []
+}
+
 variable "image_url" {
   type        = string
   description = "Flask container image URL"
