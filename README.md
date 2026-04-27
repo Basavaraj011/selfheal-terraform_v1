@@ -58,7 +58,7 @@ docker push 9606.dkr.ecr.ap-south-1.amazonaws.com/se:latest
 - Note the VPN endpoint and update the .ovpn file.
 - Download and install the AWS VPN Client if not already installed.
 
-###Teams Bot Configuration
+### Teams Bot Configuration
 - Replace the callback URL with the API Gateway invoke URL in the Teams bot configuration.
 
 ## Summary
