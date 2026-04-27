@@ -26,19 +26,15 @@ This document provides step-by-step instructions for setting up the **Selfheal**
 
 ## Docker Image Workflow
 
-1. Pull the latest code:
-   ```bash
-   git pull
-
-- Build the Docker image:
-   ```bash
-   docker build -t selfheal .
 - Clone the repository:
    ```bash
   git clone git@github.com:Basavaraj011/error_handling_system_fork.git
 - Or
    ```bash
    git clone [https://github.com/Baj011/error_system_fork.git](https://github.com/Basavaraj011/error_handling_system_fork.git)
+- Build the Docker image:
+   ```bash
+   docker build -t selfheal .
 - Authenticate Docker with AWS ECR:
    ```bash
    aws ecr get-login-password --region ap-south-1 \
