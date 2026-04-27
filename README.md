@@ -22,7 +22,8 @@ This document provides step-by-step instructions for setting up the **Selfheal**
 4. **Route Tables**  
    - Public subnet route table: `0.0.0.0/0 -> Internet Gateway (IGW)`  
    - Private subnet route table: `0.0.0.0/0 -> NAT Gateway`  
-Configure the above in the terraform.tfvars the run 
+
+- Configure the above in the terraform.tfvars the run 
    ```bash
    terraform apply
 ---
