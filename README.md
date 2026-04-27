@@ -14,14 +14,17 @@ This document provides step-by-step instructions for setting up the **Selfheal**
 
 ---
 
-## Networking Resources
+## Networking Resources 
 
-1. **Public Subnet** – 1  
-2. **Private Subnets** – 2  
-3. **Route Tables**  
+1. **vpc** - 1
+2. **Public Subnet** – 1  
+3. **Private Subnets** – 2  
+4. **Route Tables**  
    - Public subnet route table: `0.0.0.0/0 -> Internet Gateway (IGW)`  
    - Private subnet route table: `0.0.0.0/0 -> NAT Gateway`  
-
+Configure the above in the terraform.tfvars the run 
+   ```bash
+   terraform apply
 ---
 
 ## Docker Image Workflow
@@ -47,9 +50,11 @@ This document provides step-by-step instructions for setting up the **Selfheal**
    ```bash
    docker push 960451805606.dkr.ecr.ap-south-1.amazonaws.com/selfheal:latest
 
+## VPN Setup
+- Note the VPN endpoint and update the .ovpn file.
+- Download and install the AWS VPN Client if not already installed.
 
-
-### Database Setup
+## Database Setup
 - Note the DB endpoint and update environment variables.
 - Connect to the DB using:
 - Username: username
@@ -59,11 +64,7 @@ This document provides step-by-step instructions for setting up the **Selfheal**
 - Server Name: RDS Endpoint
 - Create the required tables in the database.
 
-### VPN Setup
-- Note the VPN endpoint and update the .ovpn file.
-- Download and install the AWS VPN Client if not already installed.
-
-### Teams Bot Configuration
+## Teams Bot Configuration
 - Replace the callback URL with the API Gateway invoke URL in the Teams bot configuration.
 
 ## Summary
