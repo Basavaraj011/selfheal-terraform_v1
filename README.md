@@ -47,14 +47,14 @@ docker push 9606.dkr.ecr.ap-south-1.amazonaws.com/se:latest
 
 
 
-###Database Setup
+### Database Setup
 - Note the DB endpoint and update environment variables.
 - Connect to the DB using:
 - Username: n
 - Password: in-123
 - Create the required tables in the database.
 
-###VPN Setup
+### VPN Setup
 - Note the VPN endpoint and update the .ovpn file.
 - Download and install the AWS VPN Client if not already installed.
 
