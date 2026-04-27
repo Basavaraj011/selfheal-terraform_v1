@@ -1,0 +1,74 @@
+Perfect — here’s the full README.md file content in one block so you can copy-paste directly into your repo without editing anything:
+# Selfheal Deployment Setup
+
+This document provides step-by-step instructions for setting up the **Selfheal** system on AWS with Docker and ECR.
+
+---
+
+## Prerequisites
+
+- AWS account with VPC configured  
+- AWS CLI installed and configured  
+- Docker installed  
+- Git installed  
+- AWS VPN Client installed (if required)  
+
+---
+
+## Networking Resources
+
+1. **Public Subnet** – 1  
+2. **Private Subnets** – 2  
+3. **Route Tables**  
+   - Public subnet route table: `0.0.0.0/0 -> Internet Gateway (IGW)`  
+   - Private subnet route table: `0.0.0.0/0 -> NAT Gateway`  
+
+---
+
+## Docker Image Workflow
+
+1. Pull the latest code:
+   ```bash
+   git pull
+
+- Build the Docker image:
+docker build -t selfheal .
+- Clone the repository:
+git clone git@github.com:Baj011/error_handl_fork.git
+# or
+git clone https://github.com/Baj011/error_system_fork.git
+- Authenticate Docker with AWS ECR:
+aws ecr get-login-password --region ap-south-1 \
+| docker login --username AWS --password-stdin 9606.dkr.ecr.ap-south-1.amazonaws.com
+- Tag the Docker image:
+docker tag selfheal:latest 9606.dkr.ecr.ap-south-1.amazonaws.com/selfheal:latest
+
+- Push the Docker image:
+docker push 9606.dkr.ecr.ap-south-1.amazonaws.com/se:latest
+
+
+
+Database Setup
+- Note the DB endpoint and update environment variables.
+- Connect to the DB using:
+- Username: n
+- Password: in-123
+- Create the required tables in the database.
+
+VPN Setup
+- Note the VPN endpoint and update the .ovpn file.
+- Download and install the AWS VPN Client if not already installed.
+
+Teams Bot Configuration
+- Replace the callback URL with the API Gateway invoke URL in the Teams bot configuration.
+
+Summary
+This setup ensures:
+- Proper networking with public and private subnets.
+- Secure routing via IGW and NAT.
+- Docker image built, tagged, and pushed to AWS ECR.
+- Database connection established and tables created.
+- VPN configured for secure access.
+- Teams bot integrated with API Gateway.
+
+

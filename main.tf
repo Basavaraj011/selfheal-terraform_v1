@@ -77,7 +77,7 @@ module "app_secrets" {
       AI_MODEL                     = "GPT-4.1"
       AI_PROVIDER                  = "azure_apim_chat"
       AI_API_KEY                   = "AI_API_KEY"
-      DATABASE_URL                 = "Driver={ODBC Driver 18 for SQL Server};Server=selfheal-db.crwewk24on51.ap-south-1.rds.amazonaws.com;Database=AI_PredictiveRecoveryDB;Uid=admin;Pwd=Admin-123;Encrypt=no;TrustServerCertificate=yes;"
+      DATABASE_URL                 = "Driver={ODBC Driver 18 for SQL Server};Server=selfheal-db.ccpssgke4tiv.us-east-1.rds.amazonaws.com;Database=AI_PredictiveRecoveryDB;Uid=admin;Pwd=Admin-123;Encrypt=no;TrustServerCertificate=yes;"
       JIRA_URL                     = "https://basums.atlassian.net"
       JIRA_USERNAME                = "basums011@gmail.com"
       JIRA_API_TOKEN               = "ATATT3xFfGF0_um4-nONeANhKFOkGpjDkwA7_6OY2adR7dLSg43hYmHf3Pw5XWonKAxs_QZq5xJ6JPphLRlXW1Pq0qPccqvIUPEizwsyu4DxD2zMfGsxJeiLOwGpj4FlAz5nCfh9pO8HApVizjCFcXbL9VoOHLZya3ZW2tkTCinlcwOJxIICY08=0B0F4D9F"
