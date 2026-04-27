@@ -1,4 +1,3 @@
-Perfect — here’s the full README.md file content in one block so you can copy-paste directly into your repo without editing anything:
 # Selfheal Deployment Setup
 
 This document provides step-by-step instructions for setting up the **Selfheal** system on AWS with Docker and ECR.
@@ -48,21 +47,21 @@ docker push 9606.dkr.ecr.ap-south-1.amazonaws.com/se:latest
 
 
 
-Database Setup
+###Database Setup
 - Note the DB endpoint and update environment variables.
 - Connect to the DB using:
 - Username: n
 - Password: in-123
 - Create the required tables in the database.
 
-VPN Setup
+###VPN Setup
 - Note the VPN endpoint and update the .ovpn file.
 - Download and install the AWS VPN Client if not already installed.
 
-Teams Bot Configuration
+###Teams Bot Configuration
 - Replace the callback URL with the API Gateway invoke URL in the Teams bot configuration.
 
-Summary
+##Summary
 This setup ensures:
 - Proper networking with public and private subnets.
 - Secure routing via IGW and NAT.
