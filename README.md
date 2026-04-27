@@ -61,7 +61,7 @@ docker push 9606.dkr.ecr.ap-south-1.amazonaws.com/se:latest
 ###Teams Bot Configuration
 - Replace the callback URL with the API Gateway invoke URL in the Teams bot configuration.
 
-##Summary
+## Summary
 This setup ensures:
 - Proper networking with public and private subnets.
 - Secure routing via IGW and NAT.
