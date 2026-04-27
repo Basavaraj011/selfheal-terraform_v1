@@ -31,19 +31,25 @@ This document provides step-by-step instructions for setting up the **Selfheal**
    git pull
 
 - Build the Docker image:
-docker build -t selfheal .
+   ```bash
+   docker build -t selfheal .
 - Clone the repository:
-git clone git@github.com:Basavaraj011/error_handling_system_fork.git
-# or
-git clone [https://github.com/Baj011/error_system_fork.git](https://github.com/Basavaraj011/error_handling_system_fork.git)
+   ```bash
+  git clone git@github.com:Basavaraj011/error_handling_system_fork.git
+- Or
+   ```bash
+   git clone [https://github.com/Baj011/error_system_fork.git](https://github.com/Basavaraj011/error_handling_system_fork.git)
 - Authenticate Docker with AWS ECR:
-aws ecr get-login-password --region ap-south-1 \
-| docker login --username AWS --password-stdin 960451805606.dkr.ecr.ap-south-1.amazonaws.com
+   ```bash
+   aws ecr get-login-password --region ap-south-1 \
+   | docker login --username AWS --password-stdin 960451805606.dkr.ecr.ap-south-1.amazonaws.com
 - Tag the Docker image:
-docker tag selfheal:latest 960451805606.dkr.ecr.ap-south-1.amazonaws.com/selfheal:latest
+   ```bash
+   docker tag selfheal:latest 960451805606.dkr.ecr.ap-south-1.amazonaws.com/selfheal:latest
 
 - Push the Docker image:
-docker push 960451805606.dkr.ecr.ap-south-1.amazonaws.com/selfheal:latest
+   ```bash
+   docker push 960451805606.dkr.ecr.ap-south-1.amazonaws.com/selfheal:latest
 
 
 
