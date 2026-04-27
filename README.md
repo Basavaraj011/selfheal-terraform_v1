@@ -10,7 +10,7 @@ This document provides step-by-step instructions for setting up the **Selfheal**
 - AWS CLI installed and configured  
 - Docker installed  
 - Git installed  
-- AWS VPN Client installed (if required)  
+- AWS VPN Client installed
 
 ---
 
@@ -33,25 +33,28 @@ This document provides step-by-step instructions for setting up the **Selfheal**
 - Build the Docker image:
 docker build -t selfheal .
 - Clone the repository:
-git clone git@github.com:Baj011/error_handl_fork.git
+git clone git@github.com:Basavaraj011/error_handling_system_fork.git
 # or
-git clone https://github.com/Baj011/error_system_fork.git
+git clone [https://github.com/Baj011/error_system_fork.git](https://github.com/Basavaraj011/error_handling_system_fork.git)
 - Authenticate Docker with AWS ECR:
 aws ecr get-login-password --region ap-south-1 \
-| docker login --username AWS --password-stdin 9606.dkr.ecr.ap-south-1.amazonaws.com
+| docker login --username AWS --password-stdin 960451805606.dkr.ecr.ap-south-1.amazonaws.com
 - Tag the Docker image:
-docker tag selfheal:latest 9606.dkr.ecr.ap-south-1.amazonaws.com/selfheal:latest
+docker tag selfheal:latest 960451805606.dkr.ecr.ap-south-1.amazonaws.com/selfheal:latest
 
 - Push the Docker image:
-docker push 9606.dkr.ecr.ap-south-1.amazonaws.com/se:latest
+docker push 960451805606.dkr.ecr.ap-south-1.amazonaws.com/selfheal:latest
 
 
 
 ### Database Setup
 - Note the DB endpoint and update environment variables.
 - Connect to the DB using:
-- Username: n
-- Password: in-123
+- Username: username
+- Password: password
+- Auth: SQL Server Auth
+- Server Type: Database Engine
+- Server Name: RDS Endpoint
 - Create the required tables in the database.
 
 ### VPN Setup
