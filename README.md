@@ -1,6 +1,11 @@
 # Selfheal Deployment Setup
 
 This document provides step-by-step instructions for setting up the **Selfheal** system on AWS with Docker and ECR.
+---
+
+## Architecture
+
+![alt text](images/selfheal-aws-architecture-mermaid.png)
 
 ---
 
