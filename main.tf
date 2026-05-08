@@ -112,9 +112,7 @@ module "app_secrets" {
       BEDROCK_MODEL_ID             = "anthropic.claude-3-haiku-20240307-v1:0" #anthropic.claude-3-sonnet-20240229-v1:0  change if needed
       BEDROCK_REGION               = "us-east-1"
       BEDROCK_REGION_NAME          = "us-east-1"
-      AWS_ACCESS_KEY_ID_BEDROCK    = ""
-      AWS_SECRET_ACCESS_KEY_BEDROCK    = ""
-      AWS_SESSION_TOKEN_BEDROCK    = ""
+
       
 
     } 
