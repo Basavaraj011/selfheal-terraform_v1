@@ -78,3 +78,8 @@ variable "vpc_cidr" {
   description = "CIDR block of the VPC"
   type        = string
 }
+
+variable "bucket_name" {
+  description = "Name of the S3 bucket ECS tasks need to access"
+  type        = string
+}

@@ -4,12 +4,6 @@ This document provides step-by-step instructions for setting up the **Selfheal**
 
 ---
 
-## Architecture
-
-![alt text](images/selfheal-aws-architecture-mermaid.png)
-
----
-
 ## Prerequisites
 
 - AWS account with VPC configured  
@@ -82,3 +76,5 @@ This setup ensures:
 - Database connection established and tables created.
 - VPN configured for secure access.
 - Teams bot integrated with API Gateway.
+
+

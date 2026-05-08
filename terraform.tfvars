@@ -1,25 +1,24 @@
-region                                = "ap-south-1"
-vpc_id                                = "vpc-035f6f9ebe230c983"
+region                                = "us-east-1"
+vpc_id                                = "vpc-0e9d7670b10ec2ef3"
 vpc_cidr                              = "172.31.0.0/16" # For client VPN as destination
 
 create_subnets                        = false
 
-availability_zones                    = ["ap-south-1a", "ap-south-1b"]
+availability_zones                    = ["us-east-1c", "us-east-1d"]
 
 
 existing_private_subnet_ids           = [
-                                        "subnet-05f0906a24418b482",
-                                        "subnet-0e85d89a34f5b3c1d"
+                                        "subnet-01b9f04bdc2a59a6e",
+                                        "subnet-0200203875f2aac93"
                                       ]
 
 existing_public_subnet_ids            = [
-                                        "subnet-0eb650ce0586492a6",
-                                        "subnet-0319c9cdb98c09a59"
+                                        "subnet-00a33dd05e8ee1d48"
                                       ]
 
-ecs_existing_private_subnet_ids       = ["subnet-05f0906a24418b482"]
+ecs_existing_private_subnet_ids       = ["subnet-01b9f04bdc2a59a6e"]
 
-image_url                             = "960451805606.dkr.ecr.ap-south-1.amazonaws.com/selfheal:latest"
+image_url                             = "342946498337.dkr.ecr.us-east-1.amazonaws.com/selfheal:latest"
 
 
 db_username                           = "admin"
@@ -30,3 +29,5 @@ server_cert_path                      = "./certs/server.crt"
 server_key_path                       = "./certs/server.key"
 ca_cert_path                          = "./certs/ca.crt"
 ca_key_path                           = "./certs/ca.key"
+
+bucket_name                           = "error-log-bucket-arun1"

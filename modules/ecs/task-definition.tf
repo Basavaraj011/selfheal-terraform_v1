@@ -44,6 +44,9 @@ resource "aws_ecs_task_definition" "this" {
         { name = "JIRA_URL", valueFrom = "${var.secret_arn}:JIRA_URL::" },
         { name = "JIRA_USERNAME", valueFrom = "${var.secret_arn}:JIRA_USERNAME::" },
         { name = "JIRA_API_TOKEN", valueFrom = "${var.secret_arn}:JIRA_API_TOKEN::" },
+        { name = "JIRA_PROJECT_KEY", valueFrom = "${var.secret_arn}:JIRA_PROJECT_KEY::" },
+        { name = "JIRA_ISSUE_TYPE", valueFrom = "${var.secret_arn}:JIRA_ISSUE_TYPE::" },
+        { name = "JIRA_LABELS", valueFrom = "${var.secret_arn}:JIRA_LABELS::" },
         { name = "TEAMS_WORKFLOW_URL", valueFrom = "${var.secret_arn}:TEAMS_WORKFLOW_URL::" },
         { name = "BB_PROVIDER", valueFrom = "${var.secret_arn}:BB_PROVIDER::" },
         { name = "BB_BASE_URL", valueFrom = "${var.secret_arn}:BB_BASE_URL::" },
@@ -62,7 +65,16 @@ resource "aws_ecs_task_definition" "this" {
         { name = "WEB_APP_DEBUG", valueFrom = "${var.secret_arn}:WEB_APP_DEBUG::" },
         { name = "LOG_LEVEL", valueFrom = "${var.secret_arn}:LOG_LEVEL::" },
         { name = "TEAMS_OUTGOING_HMAC_SECRET", valueFrom = "${var.secret_arn}:TEAMS_OUTGOING_HMAC_SECRET::" },
-        { name = "PORT", valueFrom = "${var.secret_arn}:PORT::" }
+        { name = "PORT", valueFrom = "${var.secret_arn}:PORT::" },
+        { name = "GIT_OWNER", valueFrom = "${var.secret_arn}:GIT_OWNER::" },
+        { name = "GIT_REPO", valueFrom = "${var.secret_arn}:GIT_REPO::" },
+        { name = "GIT_TOKEN", valueFrom = "${var.secret_arn}:GIT_TOKEN::" },
+        { name = "BEDROCK_MODEL_ID", valueFrom = "${var.secret_arn}:BEDROCK_MODEL_ID::" },
+        { name = "BEDROCK_REGION", valueFrom = "${var.secret_arn}:BEDROCK_REGION::" },
+        { name = "BEDROCK_REGION_NAME", valueFrom = "${var.secret_arn}:BEDROCK_REGION_NAME::" },
+        { name = "AWS_ACCESS_KEY_ID_BEDROCK", valueFrom = "${var.secret_arn}:AWS_ACCESS_KEY_ID_BEDROCK::" },
+        { name = "AWS_SECRET_ACCESS_KEY_BEDROCK", valueFrom = "${var.secret_arn}:AWS_SECRET_ACCESS_KEY_BEDROCK::" },
+        { name = "AWS_SESSION_TOKEN_BEDROCK", valueFrom = "${var.secret_arn}:AWS_SESSION_TOKEN_BEDROCK::" }
       ]
 
       logConfiguration = {
