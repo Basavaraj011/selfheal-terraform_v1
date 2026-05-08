@@ -112,9 +112,9 @@ module "app_secrets" {
       BEDROCK_MODEL_ID             = "anthropic.claude-3-haiku-20240307-v1:0" #anthropic.claude-3-sonnet-20240229-v1:0  change if needed
       BEDROCK_REGION               = "us-east-1"
       BEDROCK_REGION_NAME          = "us-east-1"
-      AWS_ACCESS_KEY_ID_BEDROCK    = "ASIAWV57FDZXSSUQWJ2R"
-      AWS_SECRET_ACCESS_KEY_BEDROCK    = "lmeBQ+e2KAXDaAQ5yCn/Sdg/ztz2kdzIQ48bg6te"
-      AWS_SESSION_TOKEN_BEDROCK    = "IQoJb3JpZ2luX2VjEOz//////////wEaCWV1LXdlc3QtMiJHMEUCIEPYe6wfjmkZquc54rEHvPXsp+GMPyEYyrLa9NKd9/wqAiEA7Tz+79FFdbZLCWZFcodr0IKtXbRIKOJsnf+yGU9yzxIqmgMItf//////////ARABGgw0NTk0MjU1MjEyNjMiDArvMsEZA6bk9V2JASruAkO8vhJeluC+AJTOaUptHEaaOkUxhpDkw4nv0lseE45GonISumYW4SV9gEvqMso1LOGOfTkMqB4CMBb/ZRvLPgH/ItpZQqpxj5Nu2/+kM1kRsN6zN6NibAXgmCtY8dUmQCEzL0yt8TRPhp5melbpEbQHrY06HIbhXYeyNjUE+YZqIbOuHylsg4lqWEVKlcxc3pezFjstN2s81xogbOxDNOMZgungT+1B72pWuY/KispvYv6sPFp4451AShtfG9LT2utIX7cVALKfyASs3WbykMo5Y8Nfd9iR3peiPKk9uUBi37Qmjw77puMr4EtJLTWy3nAmDlUwTCRPdOanyPMSuKzfdzppPH/kngsK3smAbdjXUL6ZH8cwXnbT4MJ5rvS14vUd1N/0U+37/paCslU3Fz4EetSd98vsx1P9tJWsIIoq5Jnxn08yqtGtbz9o9IqFgziui9Ld3qBSQK6r1fiSA6Nw+q8frEX//iADS+724DDx+PHPBjqkAWoLOrxpAj/NI9vr9JMsaHwtdZx9+wkyTXfYdTPC6YA173fKRCjLjixlLvdcYKC3h173KetKxXXkCl12sxeL0vKCM92SfcIcy5pG9lhSbplJWfAUky0KNtslIMvXIUHyuneH97Vzt31qp4n9j8qEP+vcKxp2CMMGdkJ2cGP+iADrLsBg1xHFq0xqxpFY0idusOA+5dVTgQ70hmepfEUnCzoLFj9Q"
+      AWS_ACCESS_KEY_ID_BEDROCK    = ""
+      AWS_SECRET_ACCESS_KEY_BEDROCK    = ""
+      AWS_SESSION_TOKEN_BEDROCK    = ""
       
 
     } 
