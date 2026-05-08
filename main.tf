@@ -80,7 +80,7 @@ module "app_secrets" {
       DATABASE_URL                 = "Driver={ODBC Driver 18 for SQL Server};Server=selfheal-db.caj80oc2clpr.us-east-1.rds.amazonaws.com;Database=AI_PredictiveRecoveryDB;Uid=admin;Pwd=Admin-123;Encrypt=no;TrustServerCertificate=yes;"
       JIRA_URL                     = "https://basums.atlassian.net"
       JIRA_USERNAME                = "basums011@gmail.com"
-      JIRA_API_TOKEN               = ""
+      JIRA_API_TOKEN               = "ATATT3xFfGF0_um4-nONeANhKFOkGpjDkwA7_6OY2adR7dLSg43hYmHf3Pw5XWonKAxs_QZq5xJ6JPphLRlXW1Pq0qPccqvIUPEizwsyu4DxD2zMfGsxJeiLOwGpj4FlAz5nCfh9pO8HApVizjCFcXbL9VoOHLZya3ZW2tkTCinlcwOJxIICY08=0B0F4D9F"
       JIRA_PROJECT_KEY             = "SCRUM"
       JIRA_ISSUE_TYPE              = "Story"
       JIRA_LABELS                  = "Self-Healing,Auto-Generated"
@@ -94,7 +94,7 @@ module "app_secrets" {
       BB_WORKSPACE                 = "error_handlling_system"
       BB_PROJECT                   = "error_handling_system"
       BB_REPO_SLUG                 = "python-worker"
-      BB_API_TOKEN                 = ""
+      BB_API_TOKEN                 = "ATATT3xFfGF0g0u9z4wFUnYh0AlyFUOj5Injvh1hMfde4rtUbJSEEOfDOzpkwrhgSfb2um_5hgY2wUW_iHJAARXBlkKpg1ClpRhhzoxODo3iixrjsqqlvvU7Rfm90GJ9Fq3OCdUPt-hxrew9cOZPfkPsZtGBGeMC8q5X1P5ZOTM90Lqvu1WBQAc=03E6FF10"
       BB_REVIEWERS                 = "{504c3b62-8120-4f0c-a7bc-87800b9d6f70}"
       VECTOR_STORE_TYPE            = "pinecone"
       VECTOR_STORE_API_KEY         = "your_api_key"
@@ -107,14 +107,14 @@ module "app_secrets" {
 
       GIT_OWNER                    = "Basavaraj011"
       GIT_REPO                     = "error_pipeline_demo"
-      GIT_TOKEN                    = "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"
+      GIT_TOKEN                    = ""
       
       BEDROCK_MODEL_ID             = "anthropic.claude-3-haiku-20240307-v1:0" #anthropic.claude-3-sonnet-20240229-v1:0  change if needed
       BEDROCK_REGION               = "us-east-1"
       BEDROCK_REGION_NAME          = "us-east-1"
-      AWS_ACCESS_KEY_ID_BEDROCK    = ""
-      AWS_SECRET_ACCESS_KEY_BEDROCK    = ""
-      AWS_SESSION_TOKEN_BEDROCK    = ""
+      AWS_ACCESS_KEY_ID_BEDROCK    = "ASIAWV57FDZXSSUQWJ2R"
+      AWS_SECRET_ACCESS_KEY_BEDROCK    = "lmeBQ+e2KAXDaAQ5yCn/Sdg/ztz2kdzIQ48bg6te"
+      AWS_SESSION_TOKEN_BEDROCK    = "IQoJb3JpZ2luX2VjEOz//////////wEaCWV1LXdlc3QtMiJHMEUCIEPYe6wfjmkZquc54rEHvPXsp+GMPyEYyrLa9NKd9/wqAiEA7Tz+79FFdbZLCWZFcodr0IKtXbRIKOJsnf+yGU9yzxIqmgMItf//////////ARABGgw0NTk0MjU1MjEyNjMiDArvMsEZA6bk9V2JASruAkO8vhJeluC+AJTOaUptHEaaOkUxhpDkw4nv0lseE45GonISumYW4SV9gEvqMso1LOGOfTkMqB4CMBb/ZRvLPgH/ItpZQqpxj5Nu2/+kM1kRsN6zN6NibAXgmCtY8dUmQCEzL0yt8TRPhp5melbpEbQHrY06HIbhXYeyNjUE+YZqIbOuHylsg4lqWEVKlcxc3pezFjstN2s81xogbOxDNOMZgungT+1B72pWuY/KispvYv6sPFp4451AShtfG9LT2utIX7cVALKfyASs3WbykMo5Y8Nfd9iR3peiPKk9uUBi37Qmjw77puMr4EtJLTWy3nAmDlUwTCRPdOanyPMSuKzfdzppPH/kngsK3smAbdjXUL6ZH8cwXnbT4MJ5rvS14vUd1N/0U+37/paCslU3Fz4EetSd98vsx1P9tJWsIIoq5Jnxn08yqtGtbz9o9IqFgziui9Ld3qBSQK6r1fiSA6Nw+q8frEX//iADS+724DDx+PHPBjqkAWoLOrxpAj/NI9vr9JMsaHwtdZx9+wkyTXfYdTPC6YA173fKRCjLjixlLvdcYKC3h173KetKxXXkCl12sxeL0vKCM92SfcIcy5pG9lhSbplJWfAUky0KNtslIMvXIUHyuneH97Vzt31qp4n9j8qEP+vcKxp2CMMGdkJ2cGP+iADrLsBg1xHFq0xqxpFY0idusOA+5dVTgQ70hmepfEUnCzoLFj9Q"
       
 
     } 
