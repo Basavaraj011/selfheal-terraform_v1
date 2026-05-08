@@ -107,7 +107,6 @@ module "app_secrets" {
 
       GIT_OWNER                    = "Basavaraj011"
       GIT_REPO                     = "error_pipeline_demo"
-      GIT_TOKEN                    = ""
       
       BEDROCK_MODEL_ID             = "anthropic.claude-3-haiku-20240307-v1:0" #anthropic.claude-3-sonnet-20240229-v1:0  change if needed
       BEDROCK_REGION               = "us-east-1"
