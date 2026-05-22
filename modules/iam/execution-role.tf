@@ -25,7 +25,12 @@ resource "aws_iam_role_policy" "ecs_execution_read_secrets" {
       {
         Effect   = "Allow"
         Action   = ["secretsmanager:GetSecretValue"]
-        Resource = var.secret_arn
+        Resource = "arn:aws:secretsmanager:${var.region}:*:secret:selfheal/*"
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["kms:Decrypt"]
+        Resource = "*"
       }
     ]
   })

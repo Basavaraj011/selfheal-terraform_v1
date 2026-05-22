@@ -3,11 +3,18 @@ resource "aws_iam_role_policy" "ecs_task_read_secrets" {
 
   policy = jsonencode({
     Version = "2012-10-17"
-    Statement = [{
-      Effect   = "Allow"
-      Action   = ["secretsmanager:GetSecretValue"]
-      Resource = var.secret_arn
-    }]
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = ["secretsmanager:GetSecretValue"]
+        Resource = "arn:aws:secretsmanager:${var.region}:*:secret:selfheal/*"
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["kms:Decrypt"]
+        Resource = "*"
+      }
+    ]
   })
 }
 
@@ -20,11 +27,17 @@ resource "aws_iam_role_policy" "ecs_execution_read_secrets" {
       {
         Effect   = "Allow"
         Action   = ["secretsmanager:GetSecretValue"]
-        Resource = var.secret_arn
+        Resource = "arn:aws:secretsmanager:${var.region}:*:secret:selfheal/*"
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["kms:Decrypt"]
+        Resource = "*"
       }
     ]
   })
 }
+
 
 resource "aws_iam_role_policy" "ecs_task_s3_access" {
   role = var.task_role_name

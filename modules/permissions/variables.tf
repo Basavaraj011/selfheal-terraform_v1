@@ -17,3 +17,8 @@ variable "bucket_name" {
   description = "Name of the S3 bucket ECS tasks need to access"
   type        = string
 }
+
+variable "region" {
+  description = "Name of the region"
+  type        = string
+}

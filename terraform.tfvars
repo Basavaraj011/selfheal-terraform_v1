@@ -30,4 +30,4 @@ server_key_path                       = "./certs/server.key"
 ca_cert_path                          = "./certs/ca.crt"
 ca_key_path                           = "./certs/ca.key"
 
-bucket_name                           = "error-log-bucket-arun1"
+bucket_name                           = "self-healing-system-dgs"

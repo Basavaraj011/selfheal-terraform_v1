@@ -12,3 +12,8 @@ variable "secret_arn" {
   type        = string
   description = "Secrets Manager secret ARN"
 }
+
+variable "region" {
+  description = "Name of the region"
+  type        = string
+}
