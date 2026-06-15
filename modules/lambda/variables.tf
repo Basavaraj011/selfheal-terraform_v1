@@ -58,3 +58,8 @@ variable "lambda_filename" {
 variable "lambda_role_arn" {
   type = string
 }
+
+variable "function_name" {
+  type = string
+}
+

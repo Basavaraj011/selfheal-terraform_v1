@@ -9,8 +9,14 @@ def lambda_handler(event, context):
         for record in event["Records"]:
             bucket = record["s3"]["bucket"]["name"]
             key = urllib.parse.unquote_plus(record["s3"]["object"]["key"])
+            size = record["s3"]["object"]["size"]
 
-            print(f"Received event: s3://{bucket}/{key}")
+            print(f"Received event: s3://{bucket}/{key} (size={size})")
+
+            # Ignore folder markers (zero-byte objects)
+            if size == 0:
+                print("Ignoring folder marker")
+                continue
 
             # Ignore config uploads
             if "/config/" in key:

@@ -17,3 +17,8 @@ variable "region" {
   description = "Name of the region"
   type        = string
 }
+
+variable "post_pr_lambda_arn" {
+  description = "Lambda ARN for post PR action trigger"
+  type        = string
+}

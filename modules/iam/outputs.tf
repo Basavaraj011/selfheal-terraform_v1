@@ -20,3 +20,12 @@ output "execution_role_name" {
 output "lambda_ecs_trigger_role_arn" {
   value = aws_iam_role.lambda_ecs_trigger.arn
 }
+
+output "post_pr_action_access_key_id" {
+  value = aws_iam_access_key.post_pr_action_key.id
+}
+
+output "post_pr_action_secret_access_key" {
+  value     = aws_iam_access_key.post_pr_action_key.secret
+  sensitive = true
+}

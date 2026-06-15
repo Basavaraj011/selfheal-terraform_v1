@@ -8,5 +8,7 @@ terraform {
 }
 
 provider "aws" {
-  region = var.region
+  region                  = "us-east-1"
+  shared_credentials_files = ["~/.aws/credentials"]
+  profile                 = "874456856173_DentsuDeveloper"
 }

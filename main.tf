@@ -51,6 +51,7 @@ module "iam" {
   resource_suffix     = local.resource_suffix
   execution_role_name = "ecs-execution-${local.resource_suffix}"
   secret_arn          = module.app_secrets.secret_arn
+  post_pr_lambda_arn = module.lambda_post_pr_action.lambda_arn
 }
 
 module "apigw" {
@@ -98,11 +99,31 @@ module "client_vpn" {
 module "lambda_s3_trigger" {
   source = "./modules/lambda"
 
+  function_name = "s3-to-ecs-trigger"
+
   lambda_role_arn = module.iam.lambda_ecs_trigger_role_arn
   lambda_filename = "modules/lambda/lambda.zip"
-  ecs_cluster_name      = module.ecs.cluster_name
-  task_definition_family_name   = module.ecs.task_definition_family_name
-  container_name        = module.ecs.container_name
+
+  ecs_cluster_name            = module.ecs.cluster_name
+  task_definition_family_name = module.ecs.task_definition_family_name
+  container_name              = module.ecs.container_name
+
+  private_subnet_ids    = local.private_subnet_ids
+  ecs_security_group_id = module.security.ecs_security_group_id
+}
+
+module "lambda_post_pr_action" {
+  source = "./modules/lambda"
+
+  function_name = "post-pr-actions-trigger"
+
+  lambda_role_arn = module.iam.lambda_ecs_trigger_role_arn
+  lambda_filename = "modules/lambda/lambda_post_pr_actions.zip"
+
+  ecs_cluster_name            = module.ecs.cluster_name
+  task_definition_family_name = module.ecs.task_definition_family_name
+  container_name              = module.ecs.container_name
+
   private_subnet_ids    = local.private_subnet_ids
   ecs_security_group_id = module.security.ecs_security_group_id
 }

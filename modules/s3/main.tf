@@ -11,22 +11,22 @@ resource "aws_s3_bucket" "this" {
 ############################
 resource "aws_s3_object" "tenant_a_root" {
   bucket = aws_s3_bucket.this.id
-  key    = "tenants/tenant-a/"
+  key    = "tenants/tenant_a/"
 }
 
 resource "aws_s3_object" "tenant_a_config" {
   bucket = aws_s3_bucket.this.id
-  key    = "tenants/tenant-a/config/"
+  key    = "tenants/tenant_a/config/"
 }
 
 resource "aws_s3_object" "tenant_a_incoming" {
   bucket = aws_s3_bucket.this.id
-  key    = "tenants/tenant-a/incoming/"
+  key    = "tenants/tenant_a/incoming/"
 }
 
 resource "aws_s3_object" "tenant_a_archive" {
   bucket = aws_s3_bucket.this.id
-  key    = "tenants/tenant-a/archive/"
+  key    = "tenants/tenant_a/archive/"
 }
 
 ############################
