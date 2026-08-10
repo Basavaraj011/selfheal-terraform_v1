@@ -9,14 +9,24 @@ resource "aws_s3_bucket" "this" {
 ############################
 # Folder placeholders
 ############################
-resource "aws_s3_object" "incoming" {
+resource "aws_s3_object" "tenant_a_root" {
   bucket = aws_s3_bucket.this.id
-  key    = "incoming/"
+  key    = "tenants/tenant_a/"
 }
 
-resource "aws_s3_object" "archive" {
+resource "aws_s3_object" "tenant_a_config" {
   bucket = aws_s3_bucket.this.id
-  key    = "archive/"
+  key    = "tenants/tenant_a/config/"
+}
+
+resource "aws_s3_object" "tenant_a_incoming" {
+  bucket = aws_s3_bucket.this.id
+  key    = "tenants/tenant_a/incoming/"
+}
+
+resource "aws_s3_object" "tenant_a_archive" {
+  bucket = aws_s3_bucket.this.id
+  key    = "tenants/tenant_a/archive/"
 }
 
 ############################
@@ -40,7 +50,6 @@ resource "aws_s3_bucket_notification" "trigger" {
   lambda_function {
     lambda_function_arn = var.lambda_arn
     events              = ["s3:ObjectCreated:*"]
-    filter_prefix       = "incoming/"
   }
 
   depends_on = [

@@ -57,7 +57,7 @@ variable "alb_listener_arn" {
   type = string
 }
 
-variable "secret_arn" {
-  type        = string
-  description = "Secrets Manager ARN for app env"
-}
+# variable "secret_arn" {
+#   type        = string
+#   description = "Secrets Manager ARN for app env"
+# }
