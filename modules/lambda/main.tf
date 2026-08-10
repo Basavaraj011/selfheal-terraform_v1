@@ -2,7 +2,7 @@ resource "aws_lambda_function" "this" {
   function_name = var.function_name
   role          = var.lambda_role_arn
   runtime       = "python3.11"
-  handler       = "handler.lambda_handler"
+  handler       = var.lambda_handler
   timeout       = 60
 
   filename         = var.lambda_filename

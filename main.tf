@@ -1,9 +1,13 @@
+module "vpc" {
+  source = "./modules/vpc"
+}
+
 module "security" {
   source = "./modules/security"
 
-  vpc_id           = var.vpc_id
-  vpc_cidr         = var.vpc_cidr
-  alb_ingress_cidr = ["10.0.0.0/16"]
+  vpc_id           = module.vpc.vpc_id
+  vpc_cidr         = module.vpc.vpc_cidr_block
+  alb_ingress_cidr = [module.vpc.vpc_cidr_block]
   resource_suffix  = local.resource_suffix
 }
 
@@ -11,8 +15,8 @@ module "security" {
 module "alb" {
   source = "./modules/alb"
 
-  vpc_id                = var.vpc_id
-  subnet_ids            = local.private_subnet_ids
+  vpc_id                = module.vpc.vpc_id
+  subnet_ids            = module.vpc.private_subnets
   alb_security_group_id = module.security.alb_security_group_id
   resource_suffix       = local.resource_suffix
 }
@@ -32,7 +36,7 @@ module "ecs" {
   execution_role_arn = module.iam.execution_role_arn
   task_role_arn      = module.iam.task_role_arn
 
-  ecs_subnet_ids         = local.ecs_private_subnet_id
+  ecs_subnet_ids         = [module.vpc.private_subnets[0]]
   ecs_security_group_id = module.security.ecs_security_group_id
   target_group_arn      = module.alb.target_group_arn
   alb_listener_arn      = module.alb.listener_arn
@@ -57,7 +61,7 @@ module "iam" {
 module "apigw" {
   source = "./modules/apigw"
 
-  subnet_ids        = local.private_subnet_ids
+  subnet_ids        = module.vpc.private_subnets
   security_group_id = module.security.alb_security_group_id
   alb_listener_arn  = module.alb.listener_arn
   resource_suffix   = local.resource_suffix
@@ -80,15 +84,15 @@ module "rds" {
   db_password = var.db_password
   
   rds_security_group_id = module.security.rds_security_group_id
-  private_subnet_ids = local.private_subnet_ids
+  private_subnet_ids = module.vpc.private_subnets
 }
 
 module "client_vpn" {
   source = "./modules/client_vpn"
 
-  vpc_id            = var.vpc_id
-  vpc_cidr          = var.vpc_cidr
-  private_subnet_id = local.private_subnet_ids[0]
+  vpc_id            = module.vpc.vpc_id
+  vpc_cidr          = module.vpc.vpc_cidr_block
+  private_subnet_id = module.vpc.private_subnets[0]
 
   server_cert_path = "${path.module}/certs/server.crt"
   server_key_path  = "${path.module}/certs/server.key"
@@ -103,12 +107,12 @@ module "lambda_s3_trigger" {
 
   lambda_role_arn = module.iam.lambda_ecs_trigger_role_arn
   lambda_filename = "modules/lambda/lambda.zip"
-
+  lambda_handler    = "handler.lambda_handler"
   ecs_cluster_name            = module.ecs.cluster_name
   task_definition_family_name = module.ecs.task_definition_family_name
   container_name              = module.ecs.container_name
 
-  private_subnet_ids    = local.private_subnet_ids
+  private_subnet_ids    = module.vpc.private_subnets
   ecs_security_group_id = module.security.ecs_security_group_id
 }
 
@@ -119,12 +123,28 @@ module "lambda_post_pr_action" {
 
   lambda_role_arn = module.iam.lambda_ecs_trigger_role_arn
   lambda_filename = "modules/lambda/lambda_post_pr_actions.zip"
-
+  lambda_handler    = "handler_post_pr_actions.lambda_handler"
   ecs_cluster_name            = module.ecs.cluster_name
   task_definition_family_name = module.ecs.task_definition_family_name
   container_name              = module.ecs.container_name
 
-  private_subnet_ids    = local.private_subnet_ids
+  private_subnet_ids    = module.vpc.private_subnets
+  ecs_security_group_id = module.security.ecs_security_group_id
+}
+
+module "lambda_selfheal_retry" {
+  source = "./modules/lambda"
+
+  function_name = "selfheal_retry"
+
+  lambda_role_arn = module.iam.lambda_ecs_trigger_role_arn
+  lambda_filename = "modules/lambda/lambda_selfheal_retry.zip"
+  lambda_handler    = "handler_selfheal_retry.lambda_handler"
+  ecs_cluster_name            = module.ecs.cluster_name
+  task_definition_family_name = module.ecs.task_definition_family_name
+  container_name              = module.ecs.container_name
+
+  private_subnet_ids    = module.vpc.private_subnets
   ecs_security_group_id = module.security.ecs_security_group_id
 }
 
