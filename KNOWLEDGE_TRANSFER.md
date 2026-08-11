@@ -29,8 +29,8 @@
 - **Process error logs** using ECS (Elastic Container Service)
 - **Trigger automated recovery** via Lambda functions
 - **Provide secure access** through VPN and API Gateway
-- **Store data** in RDS and S3
-- **Integrate with external systems** (GitHub, Jira, Teams, Bitbucket)
+- **Store data** in RDS
+- **Integrate with external systems** (GitHub, Jira, Teams, Bitbucket etc)
 
 **Technology Stack:**
 - **Language:** Terraform (HCL) + Python (for Lambda handlers)
@@ -253,8 +253,8 @@ module "vpc" {
 **Components:**
 - **Cluster:** Named "selfheal-cluster"
 - **Service:** Runs on Fargate with desired count 1
-- **Task Definition:** Specifies container image, port (3978), CPU (256), Memory (512)
-- **Environment Variables:** MODE=SERVICE for main service
+- **Task Definition:** Specifies container image, port (3978), CPU, Memory (512)
+- **Environment Variables:** MODE=SERVICE for Chatbot service, MODE=PR_EVENT for post PR actions, MODE=RETRY for Selfheal retry, 
 
 **Key Details:**
 - Runs Docker image from ECR
@@ -273,7 +273,7 @@ module "vpc" {
 |---|---|---|---|
 | `s3-to-ecs-trigger` | `handler.lambda_handler` | S3 ObjectCreated events | Processes error logs from S3 |
 | `post-pr-actions-trigger` | `handler_post_pr_actions.lambda_handler` | GitHub PR webhook | Handles GitHub PR events |
-| `selfheal_retry` | `handler_selfheal_retry.lambda_handler` | Manual/API trigger | Retries failed operations |
+| `selfheal_retry` | `handler_selfheal_retry.lambda_handler` | GitHub Retry trigger | Retries failed fix |
 
 **Handler Logic (Python):**
 - Parses incoming events
@@ -322,7 +322,7 @@ module "vpc" {
 
 **Features:**
 - Uses certificate-based authentication
-- Allows developers to access private resources (RDS, ECS)
+- Allows developers to access private resources (RDS)
 - Split tunneling enabled (only VPC traffic goes through VPN)
 - UDP protocol on port 443
 
@@ -447,7 +447,7 @@ alb_ingress_cidr = [module.vpc.vpc_cidr_block]
 - Filters for /incoming/ files only
 - Extracts tenant_id from S3 key path
 - Passes data via environment variables instead of command args
-- Sets MODE=JOB for batch processing
+- Sets MODE=JOB for error processing
 ```
 
 **b) Post PR Actions (`handler_post_pr_actions.py`)**
@@ -457,15 +457,15 @@ alb_ingress_cidr = [module.vpc.vpc_cidr_block]
 - Receives PR event payload
 - Extracts tenant_id from payload
 - Sets MODE=PR_EVENT
-- Useful for PR-triggered actions (code reviews, deployments, etc.)
+- Useful for PR-triggered actions (PR metadata to be stored in RDS and The tickets to be transitioned according to the PR events.)
 ```
 
 **c) Selfheal Retry (`handler_selfheal_retry.py`)**
 ```python
 # New functionality:
-- Triggered manually or by retry logic
+- Triggered to retry the selfheal to produce the updated fix if the previous fix fails during CI/CD.
 - Sets MODE=RETRY
-- Re-processes failed operations
+- Re-processes failed fix
 - Essential for resilience and error recovery
 ```
 
@@ -509,11 +509,10 @@ alb_ingress_cidr = [module.vpc.vpc_cidr_block]
 **Allowed Repositories (in github-role.tf):**
 - `darshita-singh/error_handling_system`
 - `Basavaraj011/pub-workflow-simulator`
-- `Basavaraj011/error_handling_system_fork`
 - `Basavaraj011/error_pipeline_demo`
 
 **Permissions:**
-- ECR push: Can push images to `selfheal` repository
+- ECR push: Can push images to `selfheal` ECR repository
 - Lambda invoke: Can invoke `post-pr-actions-trigger` and `selfheal_retry` functions
 
 ---
@@ -539,7 +538,7 @@ tenants/
 **Benefits:**
 - Multi-tenant isolation
 - Clear organization by tenant
-- Easier to audit and manage tenant data
+- Easier to secure, audit and manage tenant data
 - Removed filter_prefix from S3 event notification (now handled by Lambda)
 
 ---
@@ -645,9 +644,9 @@ image_url = "342946498337.dkr.ecr.us-east-1.amazonaws.com/selfheal:latest"
 **After:**
 ```hcl
 region = "us-east-1"
-image_url = "874456856173.dkr.ecr.us-east-1.amazonaws.com/selfheal:latest"
-db_username = "selfhealAdmin"
-db_password = "SelfhealAdmin-123"
+image_url = "<account>.dkr.ecr.us-east-1.amazonaws.com/selfheal:latest"
+db_username = <username>
+db_password = <password>
 server_cert_path = "./certs/server.crt"
 server_key_path = "./certs/server.key"
 ca_cert_path = "./certs/ca.crt"
@@ -717,10 +716,10 @@ Reserved: 10.90.64.224/27 (224-255)
 **Task Definition Key Settings:**
 ```python
 # Environment mode determines behavior
-MODE = "SERVICE"  # Main service, always running
-MODE = "JOB"      # Batch processing job (S3 trigger)
-MODE = "PR_EVENT" # GitHub PR event handling
-MODE = "RETRY"    # Retry failed operations
+MODE = "SERVICE"  # Chatbot service, always running
+MODE = "JOB"      # Error processing job (S3 trigger)
+MODE = "PR_EVENT" # GitHub post PR event handling
+MODE = "RETRY"    # Retry failed fixes
 ```
 
 **Container Port:** 3978 (Teams Bot service port)
@@ -881,39 +880,27 @@ terraform apply tfplan
 # Total time: 15-30 minutes
 ```
 
-#### Step 7: Verify Deployment
-```bash
-# Get outputs
-terraform output
-
-# Check AWS resources
-aws ec2 describe-vpcs --filter "Name=tag:Project,Values=selfheal"
-aws ecs describe-clusters --clusters selfheal-cluster
-aws rds describe-db-instances --db-instance-identifier selfheal-db
-aws lambda list-functions --query 'Functions[?contains(FunctionName, `selfheal`)]'
-```
-
 ---
 
-### Building and Pushing Docker Image
+### Building and Pushing Docker Image (Automated via GitHub action)
 
 ```bash
 # Clone the application repository
-git clone https://github.com/Basavaraj011/error_handling_system_fork.git
-cd error_handling_system_fork
+git clone https://github.com/darshita-singh/error_handling_system.git
+cd error_handling_system
 
 # Build Docker image
 docker build -t selfheal:latest .
 
 # Get ECR login token
 aws ecr get-login-password --region us-east-1 | \
-  docker login --username AWS --password-stdin 874456856173.dkr.ecr.us-east-1.amazonaws.com
+  docker login --username AWS --password-stdin <account>.dkr.ecr.us-east-1.amazonaws.com
 
 # Tag image
-docker tag selfheal:latest 874456856173.dkr.ecr.us-east-1.amazonaws.com/selfheal:latest
+docker tag selfheal:latest <account>.dkr.ecr.us-east-1.amazonaws.com/selfheal:latest
 
 # Push to ECR
-docker push 874456856173.dkr.ecr.us-east-1.amazonaws.com/selfheal:latest
+docker push <account>.dkr.ecr.us-east-1.amazonaws.com/selfheal:latest
 
 # Verify
 aws ecr describe-images --repository-name selfheal
@@ -972,218 +959,6 @@ terraform destroy -auto-approve
 - Enhanced Lambda handlers with multi-mode support
 
 ---
-
-## Common Tasks & Troubleshooting
-
-### Task 1: Scale ECS Service
-```bash
-# Update desired task count
-aws ecs update-service \
-  --cluster selfheal-cluster \
-  --service selfheal-service \
-  --desired-count 3
-
-# Verify
-aws ecs describe-services \
-  --cluster selfheal-cluster \
-  --services selfheal-service
-```
-
-### Task 2: Update Lambda Function Code
-```bash
-# Update handler code
-nano modules/lambda/handler.py
-
-# Repackage lambda
-zip -j modules/lambda/lambda.zip modules/lambda/handler.py
-
-# Reapply Terraform
-terraform apply
-```
-
-### Task 3: Connect to RDS Database
-```bash
-# From VPN-connected machine
-sqlcmd -S <RDS-ENDPOINT> -U selfhealAdmin -P <PASSWORD> -d AI_PredictiveRecoveryDB
-
-# Execute query
-SELECT * FROM dbo.ErrorLogs
-GO
-```
-
-### Task 4: View Lambda Logs
-```bash
-# Get log streams
-aws logs describe-log-streams \
-  --log-group-name /aws/lambda/s3-to-ecs-trigger
-
-# Get recent logs
-aws logs tail /aws/lambda/s3-to-ecs-trigger --follow
-```
-
-### Task 5: Manually Invoke Lambda
-```bash
-# Test S3 trigger Lambda
-aws lambda invoke \
-  --function-name s3-to-ecs-trigger \
-  --payload '{"Records":[{"s3":{"bucket":{"name":"self-healing-system-dgs"},"object":{"key":"tenants/tenant_a/incoming/test.log","size":1024}}}]}' \
-  response.json
-
-# View response
-cat response.json
-```
-
----
-
-### Troubleshooting: Terraform Apply Fails
-
-**Error:** `Error creating VPC: Invalid CIDR`
-
-**Solution:**
-```bash
-# Verify AWS region permissions
-aws ec2 describe-regions
-
-# Check AWS credentials
-aws sts get-caller-identity
-
-# Increase Terraform verbosity
-TF_LOG=DEBUG terraform apply
-```
-
----
-
-### Troubleshooting: ECS Task Fails to Start
-
-**Check task logs:**
-```bash
-# Get task ARN
-aws ecs list-tasks --cluster selfheal-cluster
-
-# Describe task
-aws ecs describe-tasks \
-  --cluster selfheal-cluster \
-  --tasks <TASK_ARN>
-
-# Get container logs (if CloudWatch logs enabled)
-aws logs get-log-events \
-  --log-group-name /ecs/selfheal \
-  --log-stream-name ecs/selfheal/<TASK_ID> \
-  --start-from-head
-```
-
-**Common Issues:**
-- Image not found: Check ECR image URL in terraform.tfvars
-- Insufficient memory: Increase ECS task memory in modules/ecs/variables.tf
-- Security group blocking traffic: Check security group rules in modules/security/
-
----
-
-### Troubleshooting: Lambda Cannot Invoke ECS Task
-
-**Check IAM permissions:**
-```bash
-# Verify lambda role has ecs:RunTask permission
-aws iam get-role-policy \
-  --role-name lambda-ecs-trigger-role \
-  --policy-name ecs-task-invoke
-
-# Check assume role policy
-aws iam get-role \
-  --role-name lambda-ecs-trigger-role
-```
-
-**Fix:** Update `modules/iam/` to add missing permissions
-
----
-
-### Troubleshooting: S3 Events Not Triggering Lambda
-
-**Check S3 notification configuration:**
-```bash
-# List notifications
-aws s3api get-bucket-notification-configuration \
-  --bucket self-healing-system-dgs
-
-# Verify Lambda has S3 permission
-aws lambda get-policy \
-  --function-name s3-to-ecs-trigger
-```
-
-**Fix:** Re-run `terraform apply` to update notification configuration
-
----
-
-## Useful Commands
-
-### Terraform Commands
-```bash
-# Initialize working directory
-terraform init
-
-# Format code
-terraform fmt -recursive
-
-# Validate configuration
-terraform validate
-
-# Plan changes
-terraform plan -out=tfplan
-
-# Apply changes
-terraform apply tfplan
-
-# Destroy all resources
-terraform destroy
-
-# Show current state
-terraform show
-
-# List all resources
-terraform state list
-
-# Get specific resource details
-terraform state show 'module.vpc.module.vpc.aws_vpc.this[0]'
-
-# Import existing resource
-terraform import aws_instance.example i-1234567890abcdef0
-```
-
-### AWS CLI Commands
-```bash
-# Get all ECS clusters
-aws ecs list-clusters
-
-# Describe ECS cluster
-aws ecs describe-clusters --clusters selfheal-cluster
-
-# List ECS services
-aws ecs list-services --cluster selfheal-cluster
-
-# Get ECS task logs
-aws logs tail /ecs/selfheal --follow
-
-# List Lambda functions
-aws lambda list-functions
-
-# Get Lambda function details
-aws lambda get-function --function-name s3-to-ecs-trigger
-
-# Invoke Lambda
-aws lambda invoke --function-name s3-to-ecs-trigger response.json
-
-# List ECR repositories
-aws ecr describe-repositories
-
-# Get ECR image details
-aws ecr describe-images --repository-name selfheal
-
-# Upload file to S3
-aws s3 cp errorlog.txt s3://self-healing-system-dgs/tenants/tenant_a/incoming/
-
-# List S3 bucket contents
-aws s3 ls s3://self-healing-system-dgs/ --recursive
-```
 
 ### Git Commands
 ```bash
