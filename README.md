@@ -5,7 +5,7 @@ This document provides step-by-step instructions for setting up the **Selfheal**
 
 ## Architecture
 
-![alt text](images/selfheal-aws-architecture-mermaid.png)
+![alt text](images/SelfHeal_Architecture_Diagram.jpg)
 
 ---
 
