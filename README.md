@@ -21,14 +21,50 @@ This document provides step-by-step instructions for setting up the **Selfheal**
 
 ## Networking Resources 
 
-1. **vpc** - 1
-2. **Public Subnet** – 1  
-3. **Private Subnets** – 2  
-4. **Route Tables**  
-   - Public subnet route table: `0.0.0.0/0 -> Internet Gateway (IGW)`  
-   - Private subnet route table: `0.0.0.0/0 -> NAT Gateway`  
+1. Update the terraform.tfvars
+	region                                = "us-east-1"
+
+	image_url                             = "<ACCOUNT>.dkr.ecr.us-east-1.amazonaws.com/selfheal:latest"
+
+
+	db_username                           = username of choice (admin username)
+	db_password                           = password of choice (admin password)
+
+
+	server_cert_path                      = "./certs/server.crt" (You can generate using VPN certs step )
+	server_key_path                       = "./certs/server.key"
+	ca_cert_path                          = "./certs/ca.crt"
+	ca_key_path                           = "./certs/ca.key"
+
+	bucket_name                           = "self-healing-system-dg" 
+	
+
+2. Add the secrets in secretsManager module in main.tfvars
+3. VPN certs (Steps to generate if new certs required)
+	#!/bin/bash
+	mkdir -p certs
+	cd certs
+	openssl genrsa -out ca.key 2048
+	openssl req -new -x509 -days 3650 -key ca.key -out ca.crt -subj "/CN=SelfhealVPN-CA"
+	openssl genrsa -out server.key 2048
+	openssl req -new -key server.key -out server.csr -subj "/CN=selfheal-vpn-server"
+	openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 365
+	rm server.csr
+
+	Download .ovpn
+	# 1. Go to AWS Console
+	# 2. EC2 → Client VPN Endpoints
+	# 3. Select respective vpn
+	# 4. Click "Download client configuration"
+	# 5. Save as client-vpn.ovpn
+	
+4. Next VPN setup :
+	Follow the steps in "AWS_VPN_Client_setup.pdf"
 
 - Configure the above in the terraform.tfvars the run 
+   ```bash
+   terraform init
+   ```
    ```bash
    terraform apply
 ---
