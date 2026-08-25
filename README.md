@@ -52,11 +52,11 @@ This document provides step-by-step instructions for setting up the **Selfheal**
 	rm server.csr
 
 	Download .ovpn
-  1. Go to AWS Console
-	2. EC2 → Client VPN Endpoints
-	3. Select respective vpn
-	4. Click "Download client configuration"
-	5. Save as client-vpn.ovpn
+    - Go to AWS Console
+	- EC2 → Client VPN Endpoints
+	- Select respective vpn
+	- Click "Download client configuration"
+	- Save as client-vpn.ovpn
 	
 4. Next VPN setup :
 	Follow the steps in "AWS_VPN_Client_setup.pdf"
@@ -69,14 +69,14 @@ This document provides step-by-step instructions for setting up the **Selfheal**
    terraform apply
 ---
 
-## Docker Image Workflow
+## Docker Image Workflow (It is automated through CICD, no manual push needed)
 
 - Clone the repository:
    ```bash
-  git clone git@github.com:Basavaraj011/error_handling_system.git
+  git clone [git@github.com:Basavaraj011/error_handling_system.git](https://github.com/darshita-singh/error_handling_system.git)
 - Or
    ```bash
-   git clone [https://github.com/Baj011/error_system_fork.git](https://github.com/Basavaraj011/error_handling_system_fork.git)
+   git clone git@github.com:darshita-singh/error_handling_system.git
 - Build the Docker image:
    ```bash
    docker build -t selfheal .
