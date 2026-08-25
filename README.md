@@ -1,121 +1,264 @@
 # Selfheal Deployment Setup
 
-This document provides step-by-step instructions for setting up the **Selfheal** system on AWS with Docker and ECR.
----
-
-## Architecture
-
-![alt text](images/SelfHeal_Architecture_Diagram.jpg)
+This document provides step-by-step instructions for setting up the **Selfheal** system on AWS using Docker, Amazon ECR, Terraform, and AWS Client VPN.
 
 ---
 
-## Prerequisites
+# Architecture
 
-- AWS account with VPC configured  
-- AWS CLI installed and configured  
-- Docker installed  
-- Git installed  
+![Selfheal Architecture](images/gram.jpg
+
+---
+
+# Prerequisites
+
+Ensure the following tools and resources are available before starting:
+
+- AWS Account with required permissions
+- AWS CLI installed and configured
+- Terraform installed
+- Docker installed
+- Git installed
 - AWS VPN Client installed
+- Access to the Selfheal source repository
 
 ---
 
-## Networking Resources 
+# Terraform Setup
 
-1. Update the terraform.tfvars
-	region                                = "us-east-1"
+## 1. Update `terraform.tfvars`
 
-	image_url                             = "<ACCOUNT>.dkr.ecr.us-east-1.amazonaws.com/selfheal:latest"
+Configure the required variables:
 
+```hcl
+region = "us-east-1"
 
-	db_username                           = username of choice (admin username)
-	db_password                           = password of choice (admin password)
+image_url = "<ACCOUNT>.dkr.ecr.us-east-1.amazonaws.com/selfheal:latest"
 
+db_username = "<admin-username>"
+db_password = "<admin-password>"
 
-	server_cert_path                      = "./certs/server.crt" (You can generate using VPN certs step )
-	server_key_path                       = "./certs/server.key"
-	ca_cert_path                          = "./certs/ca.crt"
-	ca_key_path                           = "./certs/ca.key"
+server_cert_path = "./certs/server.crt"
+server_key_path  = "./certs/server.key"
+ca_cert_path     = "./certs/ca.crt"
+ca_key_path      = "./certs/ca.key"
 
-	bucket_name                           = "self-healing-system-dg" 
-	
+bucket_name = "self-healing-system-dgs"
+```
 
-2. Add the secrets in secretsManager module in main.tfvars
-3. VPN certs (Steps to generate if new certs required)
-	#!/bin/bash
-	mkdir -p certs
-	cd certs
-	openssl genrsa -out ca.key 2048
-	openssl req -new -x509 -days 3650 -key ca.key -out ca.crt -subj "/CN=SelfhealVPN-CA"
-	openssl genrsa -out server.key 2048
-	openssl req -new -key server.key -out server.csr -subj "/CN=selfheal-vpn-server"
-	openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 365
-	rm server.csr
-
-	Download .ovpn
-	# 1. Go to AWS Console
-	# 2. EC2 → Client VPN Endpoints
-	# 3. Select respective vpn
-	# 4. Click "Download client configuration"
-	# 5. Save as client-vpn.ovpn
-	
-4. Next VPN setup :
-	Follow the steps in "AWS_VPN_Client_setup.pdf"
-
-- Configure the above in the terraform.tfvars the run 
-   ```bash
-   terraform init
-   ```
-   ```bash
-   terraform apply
 ---
 
-## Docker Image Workflow
+## 2. Configure Secrets Manager
 
-- Clone the repository:
-   ```bash
-  git clone git@github.com:Basavaraj011/error_handling_system_fork.git
-- Or
-   ```bash
-   git clone [https://github.com/Baj011/error_system_fork.git](https://github.com/Basavaraj011/error_handling_system_fork.git)
-- Build the Docker image:
-   ```bash
-   docker build -t selfheal .
-- Authenticate Docker with AWS ECR:
-   ```bash
-   aws ecr get-login-password --region ap-south-1 \
-   | docker login --username AWS --password-stdin 960451805606.dkr.ecr.ap-south-1.amazonaws.com
-- Tag the Docker image:
-   ```bash
-   docker tag selfheal:latest 960451805606.dkr.ecr.ap-south-1.amazonaws.com/selfheal:latest
+Add the required application secrets in the Secrets Manager module configuration before deployment.
 
-- Push the Docker image:
-   ```bash
-   docker push 960451805606.dkr.ecr.ap-south-1.amazonaws.com/selfheal:latest
+---
 
-## VPN Setup
-- Note the VPN endpoint and update the .ovpn file.
-- Download and install the AWS VPN Client if not already installed.
+## 3. Generate VPN Certificates (Optional)
 
-## Database Setup
-- Note the DB endpoint and update environment variables.
-- Connect to the DB using:
-- Username: username
-- Password: password
-- Auth: SQL Server Auth
-- Server Type: Database Engine
-- Server Name: RDS Endpoint
-- Create the required tables in the database.
+If new VPN certificates are required, generate them using the following script:
 
-## Teams Bot Configuration
-- Replace the callback URL with the API Gateway invoke URL in the Teams bot configuration.
+```bash
+#!/bin/bash
 
-## Summary
-This setup ensures:
-- Proper networking with public and private subnets.
-- Secure routing via IGW and NAT.
-- Docker image built, tagged, and pushed to AWS ECR.
-- Database connection established and tables created.
-- VPN configured for secure access.
-- Teams bot integrated with API Gateway.
+mkdir -p certs
+cd certs
 
+openssl genrsa -out ca.key 2048
+openssl req -new -x509 -days 3650 -key ca.key -out ca.crt -subj "/CN=SelfhealVPN-CA"
 
+openssl genrsa -out server.key 2048
+openssl req -new -key server.key -out server.csr -subj "/CN=selfheal-vpn-server"
+
+openssl x509 \
+  -req \
+  -in server.csr \
+  -CA ca.crt \
+  -CAkey ca.key \
+  -CAcreateserial \
+  -out server.crt \
+  -days 365
+
+rm server.csr
+```
+
+### Download VPN Configuration
+
+1. Open the AWS Console.
+2. Navigate to **EC2 → Client VPN Endpoints**.
+3. Select the appropriate VPN endpoint.
+4. Click **Download Client Configuration**.
+5. Save the file as:
+
+```text
+client-vpn.ovpn
+```
+
+---
+
+## 4. Configure AWS VPN Client
+
+Follow the instructions provided in:
+
+```text
+AWS_VPN_Client_setup.pdf
+```
+
+---
+
+## 5. Deploy Infrastructure
+
+Initialize Terraform:
+
+```bash
+terraform init
+```
+
+Deploy the infrastructure:
+
+```bash
+terraform apply
+```
+
+When prompted, enter:
+
+```text
+yes
+```
+
+---
+
+# Docker Image Workflow
+
+## Clone the Repository
+
+Using SSH:
+
+```bash
+git clone git@github.com:Basavaraj011/error_handling_system.git
+```
+
+Or using HTTPS:
+
+```bash
+git clone https://github.com/Basavaraj011/error_handling_system_fork.git
+```
+
+Navigate to the project directory:
+
+```bash
+cd error_handling_system
+```
+
+---
+
+## Build the Docker Image
+
+```bash
+docker build -t selfheal .
+```
+
+---
+
+## Authenticate Docker with Amazon ECR
+
+```bash
+aws ecr get-login-password --region ap-south-1 \
+| docker login --username AWS --password-stdin <ACCOUNT>.dkr.ecr.ap-south-1.amazonaws.com
+```
+
+---
+
+## Tag the Docker Image
+
+```bash
+docker tag selfheal:latest <ACCOUNT>.dkr.ecr.ap-south-1.amazonaws.com/selfheal:latest
+```
+
+---
+
+## Push the Docker Image
+
+```bash
+docker push <ACCOUNT>.dkr.ecr.ap-south-1.amazonaws.com/selfheal:latest
+```
+
+---
+
+# VPN Setup
+
+After Terraform deployment:
+
+1. Note the Client VPN endpoint.
+2. Update the downloaded `.ovpn` configuration file if required.
+3. Open AWS VPN Client.
+4. Import the `.ovpn` configuration.
+5. Connect to the VPN before accessing internal resources.
+
+---
+
+# Database Setup
+
+After RDS deployment:
+
+1. Note the RDS endpoint.
+2. Update the application environment variables with the database endpoint.
+3. Connect using SQL Server Management Studio (SSMS) or a compatible client.
+
+Connection Details:
+
+```text
+Server Type : Database Engine
+Server Name : <RDS Endpoint>
+Authentication : SQL Server Authentication
+Username : <db_username>
+Password : <db_password>
+```
+
+4. Create the required application tables and schema.
+
+---
+
+# Teams Bot Configuration
+
+Update the Teams Bot callback endpoint with the deployed API Gateway URL.
+
+Example:
+
+```text
+https://<api-id>.execute-api.<region>.amazonaws.com/prod/
+```
+
+Ensure the callback URL points to the API Gateway endpoint exposed by the Selfheal application.
+
+---
+
+# Verification Checklist
+
+Verify the following after deployment:
+
+- [ ] Terraform deployment completed successfully
+- [ ] VPN connection is working
+- [ ] ECS services are running
+- [ ] Docker image is available in ECR
+- [ ] RDS instance is reachable through VPN
+- [ ] Secrets are available in AWS Secrets Manager
+- [ ] API Gateway endpoint is accessible
+- [ ] Teams Bot callback URL is updated
+- [ ] Application logs are visible in CloudWatch
+
+---
+
+# Summary
+
+This deployment provides:
+
+- Secure AWS networking using public and private subnets
+- Outbound connectivity through NAT Gateway
+- Containerized deployment using Docker and ECS Fargate
+- Image storage using Amazon ECR
+- Secure secret management with AWS Secrets Manager
+- Private database access through AWS Client VPN
+- Application monitoring through Amazon CloudWatch
+- Microsoft Teams integration through API Gateway
+- Infrastructure provisioning using Terraform
