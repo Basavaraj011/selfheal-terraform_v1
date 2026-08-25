@@ -59,7 +59,7 @@ This document provides step-by-step instructions for setting up the **Selfheal**
 	- Save as client-vpn.ovpn
 	
 4. Next VPN setup :
-	Follow the steps in "AWS_VPN_Client_setup.pdf"
+	Follow the steps in "resources/AWS_VPN_Client_setup.pdf"
 
 - Configure the above in the terraform.tfvars the run 
    ```bash
