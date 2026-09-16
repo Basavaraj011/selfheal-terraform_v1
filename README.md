@@ -114,6 +114,7 @@ This document provides step-by-step instructions for setting up the **Selfheal**
 ## VPN Setup
 - Note the VPN endpoint and update the .ovpn file.
 - Download and install the AWS VPN Client if not already installed.
+![alt text](resources/AWS_VPN_Client_setup.pdf)
 
 ## Database Setup
 - Note the DB endpoint and update environment variables.
