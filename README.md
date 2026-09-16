@@ -112,9 +112,9 @@ This document provides step-by-step instructions for setting up the **Selfheal**
 - Now go to the channel and ask question to chatbot by invoking like, @chatbot-name "Your Question"
 
 ## VPN Setup
-- Note the VPN endpoint and update the .ovpn file.
+- Note the VPN endpoint from AWS Client VPN and update the .ovpn file.
 - Download and install the AWS VPN Client if not already installed.
-![alt text](resources/AWS_VPN_Client_setup.pdf)
+- Refer ![VPN Setup](resources/AWS_VPN_Client_setup.pdf)
 
 ## Database Setup
 - Note the DB endpoint and update environment variables.
