@@ -97,6 +97,20 @@ This document provides step-by-step instructions for setting up the **Selfheal**
 - The git action builds the docker image of the app "error_handling_system" and with the tag "latest" and pushes to ECR.
 - The ECS pulls the latest image from the ECR whenever the ECS tasks gets triggered.
 
+## Chatbot Setup
+- Create a teams channel in MS teams.
+- Create an outgoing webhook:
+	1. Go to manage teams
+	2. Go to apps
+	3. Click "Create an outgoing webhook"
+	4. Enter the name for the Chatbot
+	5. Enter the callback URL (Can be found in the API Gatweway in AWS as invoke URL).
+	6. Give a description
+	7. Then create
+	8. Then copy the HMAC secuity code and configure it in the env.
+- Now find the channel_id (ex-> "19:FOGIzcqVPQTu8NIkau4RjeQTurx59OrP0wYLRk4xF241@thread.tacv2") from the channel link (Can find the link in "copy link" from the channel) and configure the channel name in the teams.yml in the error_handling_system repo.
+- Now go to the channel and ask question to chatbot by invoking like, @chatbot-name "Your Question"
+
 ## VPN Setup
 - Note the VPN endpoint and update the .ovpn file.
 - Download and install the AWS VPN Client if not already installed.
