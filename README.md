@@ -113,6 +113,12 @@ This document provides step-by-step instructions for setting up the **Selfheal**
 
 ## VPN Setup
 - Note the VPN endpoint from AWS Client VPN and update the .ovpn file.
+- Download .ovpn
+	# 1. Go to AWS Console
+	# 2. EC2 → Client VPN Endpoints
+	# 3. Select respective vpn
+	# 4. Click "Download client configuration"
+	# 5. Save as client-vpn.ovpn
 - Download and install the AWS VPN Client if not already installed.
 - Refer ![VPN Setup](resources/AWS_VPN_Client_setup.pdf)
 
