@@ -91,6 +91,11 @@ This document provides step-by-step instructions for setting up the **Selfheal**
 - Push the Docker image:
    ```bash
    docker push 960451805606.dkr.ecr.ap-south-1.amazonaws.com/selfheal:latest
+## CICD for Images push to AWS ECR 
+- Developer creates the PR in the error_handling_system
+- Upon PR merge to main, The git action "error_handling_system/.github/workflows/ecr-push.yml" is set to trigger (currently its adhoc)
+- The git action builds the docker image of the app "error_handling_system" and with the tag "latest" and pushes to ECR.
+- The ECS pulls the latest image from the ECR whenever the ECS tasks gets triggered.
 
 ## VPN Setup
 - Note the VPN endpoint and update the .ovpn file.
